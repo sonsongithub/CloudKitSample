@@ -17,6 +17,7 @@
 @interface TableViewController () {
 	NSMutableArray *_privateData;
 	NSMutableArray *_publicData;
+	UISwitch *_subscribeSwitch;
 }
 @end
 
@@ -90,6 +91,118 @@
 	[super viewWillAppear:animated];
 	[self refetchPrivate:YES];
 	[self refetchPrivate:NO];
+	[self.navigationController setToolbarHidden:NO];}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	[self setupBottomSwitch];
+	_subscribeSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"subscribed"];
+}
+
+- (void)didChangeSubscribeSwitch:(id)sender {
+	if (_subscribeSwitch.on) {
+		[self subscribe];
+	}
+	else {
+		[self unsubscribe];
+	}
+}
+
+- (void)subscribe {
+	CKDatabase *database = [[CKContainer defaultContainer] publicCloudDatabase];
+	if (_subscribeSwitch.on) {
+		
+		NSPredicate *truePredicate = [NSPredicate predicateWithValue:YES];
+		CKSubscription *itemSubscription = [[CKSubscription alloc] initWithRecordType:@"comment"
+																			predicate:truePredicate
+																			  options:CKSubscriptionOptionsFiresOnRecordCreation];
+		
+		
+		CKNotificationInfo *notification = [[CKNotificationInfo alloc] init];
+		notification.alertBody = @"New Item Added!";
+		itemSubscription.notificationInfo = notification;
+		
+		[database saveSubscription:itemSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
+			if (error) {
+				// In your app, handle this error appropriately.
+				NSLog(@"An error occured in %@: %@", NSStringFromSelector(_cmd), error);
+				abort();
+			} else {
+				NSLog(@"Subscribed to Item");
+				NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+				[defaults setBool:YES forKey:@"subscribed"];
+				[defaults setObject:subscription.subscriptionID forKey:@"subscriptionID"];
+				[[NSUserDefaults standardUserDefaults] synchronize];
+			}
+		}];
+	}
+}
+
+- (void)unsubscribe {
+	CKDatabase *database = [[CKContainer defaultContainer] publicCloudDatabase];
+	if (!_subscribeSwitch.on) {
+		
+		NSString *subscriptionID = [[NSUserDefaults standardUserDefaults] objectForKey:@"subscriptionID"];
+		
+		CKModifySubscriptionsOperation *modifyOperation = [[CKModifySubscriptionsOperation alloc] init];
+		modifyOperation.subscriptionIDsToDelete = @[subscriptionID];
+		
+		modifyOperation.modifySubscriptionsCompletionBlock = ^(NSArray *savedSubscriptions, NSArray *deletedSubscriptionIDs, NSError *error) {
+			if (error) {
+				// In your app, handle this error beautifully.
+				NSLog(@"An error occured in %@: %@", NSStringFromSelector(_cmd), error);
+				abort();
+			} else {
+				NSLog(@"Unsubscribed to Item");
+				[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"subscriptionID"];
+				[[NSUserDefaults standardUserDefaults] synchronize];
+			}
+		};
+		
+		[database addOperation:modifyOperation];
+	}
+}
+
+- (void)setupBottomSwitch {
+	UIBarButtonItem *flexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+	UIView *switchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 180, 44)];
+	UISwitch *subscribeSwitch = [[UISwitch alloc] init];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+	subscribeSwitch.translatesAutoresizingMaskIntoConstraints = NO;
+	label.translatesAutoresizingMaskIntoConstraints = NO;
+	label.text = NSLocalizedString(@"Subscribe public.", nil);
+	label.font = [UIFont systemFontOfSize:12];
+	[switchView addSubview:subscribeSwitch];
+	[switchView addSubview:label];
+	
+	_subscribeSwitch = subscribeSwitch;
+	[_subscribeSwitch addTarget:self action:@selector(didChangeSubscribeSwitch:) forControlEvents:UIControlEventValueChanged];
+	
+	// Autolayout
+	NSDictionary *views = NSDictionaryOfVariableBindings(subscribeSwitch, label);
+	[switchView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[subscribeSwitch(==60)]-4-[label(>=0)]-0-|"
+																	  options:0
+																	  metrics:nil
+																		views:views]];
+	[switchView addConstraint:
+	 [NSLayoutConstraint constraintWithItem:label
+								  attribute:NSLayoutAttributeCenterY
+								  relatedBy:NSLayoutRelationEqual
+									 toItem:switchView
+								  attribute:NSLayoutAttributeCenterY
+								 multiplier:1
+								   constant:0]];
+	[switchView addConstraint:
+	 [NSLayoutConstraint constraintWithItem:subscribeSwitch
+								  attribute:NSLayoutAttributeCenterY
+								  relatedBy:NSLayoutRelationEqual
+									 toItem:switchView
+								  attribute:NSLayoutAttributeCenterY
+								 multiplier:1
+								   constant:0]];
+	
+	UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:switchView];
+	self.toolbarItems = @[flexible, item, flexible];
 }
 
 - (void)viewDidLoad {

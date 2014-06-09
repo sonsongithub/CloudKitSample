@@ -141,6 +141,9 @@
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = JP866VWWSD;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
