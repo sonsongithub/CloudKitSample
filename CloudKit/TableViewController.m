@@ -22,6 +22,11 @@
 
 @implementation TableViewController
 
+- (IBAction)reload:(id)sender {
+	[self refetchPrivate:YES];
+	[self refetchPrivate:NO];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	if ([segue.identifier isEqualToString:@"NewEntry"]) {
 	}

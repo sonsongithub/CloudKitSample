@@ -43,6 +43,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="A3a-82-9us">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="6Qc-Nv-UFZ">
+                            <connections>
+                                <action selector="reload:" destination="ga4-x2-hWt" id="xmM-8d-e1K"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="KO9-fy-2wq">
                             <connections>
                                 <segue destination="bFv-6K-Gxx" kind="show" identifier="NewEntry" id="IWc-S4-lmK"/>
