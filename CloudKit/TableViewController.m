@@ -10,6 +10,8 @@
 
 #import <CloudKit/CloudKit.h>
 
+#import "EditViewController.h"
+
 #import "helper.h"
 
 @interface TableViewController () {
@@ -19,6 +21,30 @@
 @end
 
 @implementation TableViewController
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([segue.identifier isEqualToString:@"NewEntry"]) {
+	}
+	else if ([segue.identifier isEqualToString:@"EditEntry"]) {
+		EditViewController *vc = segue.destinationViewController;
+		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+		
+		NSMutableArray *target = nil;
+		if (indexPath.section == 0) {
+			target = _privateData;
+			vc.isDatabasePrivate = YES;
+		}
+		else {
+			target = _publicData;
+			vc.isDatabasePrivate = NO;
+		}
+		
+		// Configure the cell...
+		CKRecord *record = target[indexPath.row];
+		
+		vc.record = record;
+	}
+}
 
 - (void)refetchPrivate:(BOOL)private {
 	DNSLogMethod
@@ -111,13 +137,11 @@
     
     return cell;
 }
- 
-// Override to support conditional editing of the table view.
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
 
-// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
