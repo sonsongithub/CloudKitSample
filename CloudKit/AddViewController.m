@@ -55,6 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	_switch.on = NO;
 }
 
 @end

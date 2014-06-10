@@ -17,6 +17,9 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	//
+	// You have to enable "Remote notification" in "Background mode", Capability of Xcode project.
+	//
 	[application registerForRemoteNotifications];
 	return YES;
 }
