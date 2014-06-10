@@ -8,30 +8,37 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
-            
+#import <CloudKit/CloudKit.h>
+#import "helper.h"
 
+@interface AppDelegate ()
 @end
 
 @implementation AppDelegate
-            
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	// Override point for customization after application launch.
 	[application registerForRemoteNotifications];
 	return YES;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-	NSLog(@"Registered for Push notifications with token: %@", deviceToken);
+	DNSLog(@"Registered for Push notifications with token: %@", deviceToken);
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-	NSLog(@"Push subscription failed");
+	DNSLog(@"Push subscription failed");
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)info {
-	NSLog(@"Push received");
+	DNSLog(@"Push received");
+	CKNotification *cloudKitNotification = [CKNotification notificationFromRemoteNotificationDictionary:info];
+	NSString *alertBody = cloudKitNotification.alertBody;
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Subscription", nil)
+														message:alertBody
+													   delegate:nil
+											  cancelButtonTitle:nil
+											  otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+	[alertView show];
 }
 
 @end

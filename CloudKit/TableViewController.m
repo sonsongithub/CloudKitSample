@@ -119,16 +119,14 @@
 		
 		
 		CKNotificationInfo *notification = [[CKNotificationInfo alloc] init];
-		notification.alertBody = @"New Item Added!";
+		notification.alertBody = @"New comment has been added.";
 		itemSubscription.notificationInfo = notification;
 		
 		[database saveSubscription:itemSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
 			if (error) {
-				// In your app, handle this error appropriately.
-				NSLog(@"An error occured in %@: %@", NSStringFromSelector(_cmd), error);
-				abort();
-			} else {
-				NSLog(@"Subscribed to Item");
+				DNSLog(@"%@", [error localizedDescription]);
+			}
+			else {
 				NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 				[defaults setBool:YES forKey:@"subscribed"];
 				[defaults setObject:subscription.subscriptionID forKey:@"subscriptionID"];
@@ -149,11 +147,8 @@
 		
 		modifyOperation.modifySubscriptionsCompletionBlock = ^(NSArray *savedSubscriptions, NSArray *deletedSubscriptionIDs, NSError *error) {
 			if (error) {
-				// In your app, handle this error beautifully.
-				NSLog(@"An error occured in %@: %@", NSStringFromSelector(_cmd), error);
-				abort();
+				DNSLog(@"%@", [error localizedDescription]);
 			} else {
-				NSLog(@"Unsubscribed to Item");
 				[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"subscriptionID"];
 				[[NSUserDefaults standardUserDefaults] synchronize];
 			}
