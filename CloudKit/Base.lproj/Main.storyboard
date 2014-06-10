@@ -12,6 +12,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="436"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" textLabel="OtN-Km-pA6" detailTextLabel="U3u-Yk-OPU" style="IBUITableViewCellStyleSubtitle" id="UPs-4N-AZK">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -67,6 +68,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="436"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <sections>
                             <tableViewSection id="Naj-y3-nRV">
                                 <cells>
@@ -76,7 +78,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRw-jh-UkF">
-                                                    <rect key="frame" x="20" y="0.0" width="76" height="43"/>
+                                                    <rect key="frame" x="20" y="0.0" width="76" height="45"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="80" id="zxV-9E-FZp"/>
                                                     </constraints>
@@ -85,7 +87,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="comment here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4jf-2Z-yKQ">
-                                                    <rect key="frame" x="104" y="0.0" width="356" height="43"/>
+                                                    <rect key="frame" x="104" y="0.0" width="356" height="44.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -107,10 +109,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N9i-rT-SHd">
-                                                    <rect key="frame" x="411" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="411" y="6" width="51" height="31.5"/>
                                                 </switch>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Private" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhT-tN-fXN">
-                                                    <rect key="frame" x="20" y="0.0" width="54" height="43"/>
+                                                    <rect key="frame" x="20" y="0.0" width="54" height="45"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="80" id="gqS-HE-nEW"/>
                                                     </constraints>
@@ -181,6 +183,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="436"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <sections>
                             <tableViewSection id="3Im-TM-eiN">
                                 <cells>
@@ -190,7 +193,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H9i-0u-AVT">
-                                                    <rect key="frame" x="20" y="0.0" width="76" height="43"/>
+                                                    <rect key="frame" x="20" y="0.0" width="76" height="45"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="80" id="CyI-gm-N9F"/>
                                                     </constraints>
@@ -199,7 +202,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="comment here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ALP-En-2U3">
-                                                    <rect key="frame" x="104" y="0.0" width="356" height="43"/>
+                                                    <rect key="frame" x="104" y="0.0" width="356" height="44.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
