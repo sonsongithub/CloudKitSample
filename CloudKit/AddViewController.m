@@ -15,6 +15,7 @@
 @interface AddViewController () {
 	IBOutlet UISwitch		*_switch;
 	IBOutlet UITextField	*_textField;
+	NSOperationQueue		*_queue;
 }
 @end
 
@@ -39,23 +40,35 @@
 	[newRecord setObject:_textField.text forKey:@"text"];
 	[newRecord setObject:[NSNumber numberWithDouble:refTime] forKey:@"time"];
 	
-	[database saveRecord:newRecord
-			 completionHandler:^(CKRecord *saved, NSError *error) {
-				 dispatch_async(dispatch_get_main_queue(), ^{
-					 if (error) {
-						 DNSLog(@"%@", [error localizedDescription]);
-					 }
-					 else {
-						 DNSLog(@"Added - %@", saved);
-						 [self.navigationController popViewControllerAnimated:YES];
-					 }
-				 });
-			 }];
+	CKModifyRecordsOperation *operation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[newRecord] recordIDsToDelete:@[]];
+	
+	operation.database = database;
+	operation.completionBlock = ^(void) {
+	};
+	operation.modifyRecordsCompletionBlock = ^(NSArray *savedRecords, NSArray *deletedRecordIDs, NSError *error) {
+		if (error) {
+			DNSLog(@"%@", error);
+		}
+		if ([savedRecords count]) {
+			DNSLog(@"savedRecords = %@", savedRecords);
+		}
+		if ([deletedRecordIDs count]) {
+			DNSLog(@"deletedRecordIDs = %@", deletedRecordIDs);
+		}
+	};
+	operation.perRecordCompletionBlock = ^(CKRecord *record, NSError *error) {
+		DNSLog(@"%@", error);
+	};
+	operation.perRecordProgressBlock = ^(CKRecord *record, double progress) {
+	};
+	
+	[_queue addOperation:operation];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	_switch.on = NO;
+	_queue = [[NSOperationQueue alloc] init];
 }
 
 @end

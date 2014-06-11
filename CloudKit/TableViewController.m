@@ -15,9 +15,10 @@
 #import "helper.h"
 
 @interface TableViewController () {
-	NSMutableArray *_privateData;
-	NSMutableArray *_publicData;
-	UISwitch *_subscribeSwitch;
+	NSMutableArray		*_privateData;
+	NSMutableArray		*_publicData;
+	UISwitch			*_subscribeSwitch;
+	NSOperationQueue	*_queue;
 }
 @end
 
@@ -204,6 +205,7 @@
     [super viewDidLoad];
 	_publicData = [NSMutableArray array];
 	_privateData = [NSMutableArray array];
+	_queue = [[NSOperationQueue alloc] init];
 }
 
 #pragma mark - Table view data source
@@ -246,8 +248,12 @@
 	CKRecord *record = target[indexPath.row];
 	
 	cell.textLabel.text = record[@"text"];
-	cell.detailTextLabel.text = [record[@"time"] stringValue];
-    
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setTimeStyle:NSDateFormatterMediumStyle];
+	[formatter setDateStyle:NSDateFormatterMediumStyle];
+	NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:[record[@"time"] doubleValue]];
+	cell.detailTextLabel.text = [formatter stringFromDate:date];
+
     return cell;
 }
 
@@ -271,14 +277,30 @@
 		}
 		CKRecord *recordToBeDeleted = [target objectAtIndex:indexPath.row];
 		
-		[database deleteRecordWithID:recordToBeDeleted.recordID completionHandler:^(CKRecordID *recordID, NSError *error) {
+		CKModifyRecordsOperation *operation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[] recordIDsToDelete:@[recordToBeDeleted.recordID]];
+		
+		operation.database = database;
+		operation.completionBlock = ^(void) {
+		};
+		operation.modifyRecordsCompletionBlock = ^(NSArray *savedRecords, NSArray *deletedRecordIDs, NSError *error) {
 			if (error) {
-				DNSLog(@"%@", [error localizedDescription]);
+				DNSLog(@"%@", error);
 			}
-			else {
-				DNSLog(@"Deleted - %@", recordID);
+			if ([savedRecords count]) {
+				DNSLog(@"savedRecords = %@", savedRecords);
 			}
-		}];
+			if ([deletedRecordIDs count]) {
+				DNSLog(@"deletedRecordIDs = %@", deletedRecordIDs);
+			}
+		};
+		operation.perRecordCompletionBlock = ^(CKRecord *record, NSError *error) {
+			DNSLog(@"%@", error);
+		};
+		operation.perRecordProgressBlock = ^(CKRecord *record, double progress) {
+		};
+		
+		[_queue addOperation:operation];
+		
 		[target removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }

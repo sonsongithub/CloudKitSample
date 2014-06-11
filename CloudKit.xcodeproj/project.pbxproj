@@ -10,6 +10,7 @@
 		14334BE71944FE7300261F29 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14334BE61944FE7300261F29 /* AddViewController.m */; };
 		1454E2031945F615004A5D3F /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1454E2021945F615004A5D3F /* EditViewController.m */; };
 		14E50AE21940D25E0009C3CB /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E50AE11940D25E0009C3CB /* TableViewController.m */; };
+		14EDF9B3194841A300D0C3AD /* CKModifyRecordsOperation+test.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EDF9B2194841A300D0C3AD /* CKModifyRecordsOperation+test.m */; };
 		14F0DC7919404F35001EFFAD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F0DC7819404F35001EFFAD /* main.m */; };
 		14F0DC7C19404F35001EFFAD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F0DC7B19404F35001EFFAD /* AppDelegate.m */; };
 		14F0DC8219404F35001EFFAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14F0DC8019404F35001EFFAD /* Main.storyboard */; };
@@ -38,6 +39,8 @@
 		14E50AE01940D25E0009C3CB /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		14E50AE11940D25E0009C3CB /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		14E50AE31940D6110009C3CB /* helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
+		14EDF9B1194841A300D0C3AD /* CKModifyRecordsOperation+test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CKModifyRecordsOperation+test.h"; sourceTree = "<group>"; };
+		14EDF9B2194841A300D0C3AD /* CKModifyRecordsOperation+test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CKModifyRecordsOperation+test.m"; sourceTree = "<group>"; };
 		14F0DC7319404F35001EFFAD /* CloudKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F0DC7719404F35001EFFAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14F0DC7819404F35001EFFAD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -83,6 +86,8 @@
 			children = (
 				14F0DC9919404F98001EFFAD /* CloudKit.entitlements */,
 				14F0DC7A19404F35001EFFAD /* AppDelegate.h */,
+				14EDF9B1194841A300D0C3AD /* CKModifyRecordsOperation+test.h */,
+				14EDF9B2194841A300D0C3AD /* CKModifyRecordsOperation+test.m */,
 				14F0DC7B19404F35001EFFAD /* AppDelegate.m */,
 				14E50AE01940D25E0009C3CB /* TableViewController.h */,
 				14E50AE11940D25E0009C3CB /* TableViewController.m */,
@@ -186,6 +191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14EDF9B3194841A300D0C3AD /* CKModifyRecordsOperation+test.m in Sources */,
 				14F0DC7C19404F35001EFFAD /* AppDelegate.m in Sources */,
 				14E50AE21940D25E0009C3CB /* TableViewController.m in Sources */,
 				14334BE71944FE7300261F29 /* AddViewController.m in Sources */,

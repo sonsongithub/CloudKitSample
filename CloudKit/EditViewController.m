@@ -11,10 +11,16 @@
 
 @interface EditViewController () {
 	IBOutlet UITextField	*_textField;
+	NSOperationQueue		*_queue;
 }
 @end
 
 @implementation EditViewController
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	_queue = [[NSOperationQueue alloc] init];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
@@ -45,18 +51,37 @@
 	//
 	// You have to set appropriate role at iCloud Dashboard in order to edit a property of your record.
 	//
+
+	CKModifyRecordsOperation *operation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[record] recordIDsToDelete:@[]];
 	
-	[database saveRecord:record
-	   completionHandler:^(CKRecord *record, NSError *error) {
-		   dispatch_async(dispatch_get_main_queue(), ^{
-			   if (error) {
-				   DNSLog(@"%@", [error localizedDescription]);
-			   }
-			   else {
-				   [self.navigationController popViewControllerAnimated:YES];
-			   }
-		   });
-	   }];
+	//
+	// Save policy
+	//
+	operation.savePolicy = CKRecordSaveIfServerRecordUnchanged;
+//	operation.savePolicy = CKRecordSaveAllKeys;
+//	operation.savePolicy = CKRecordSaveChangedKeys;
+	
+	operation.database = database;
+	operation.completionBlock = ^(void) {
+	};
+	operation.modifyRecordsCompletionBlock = ^(NSArray *savedRecords, NSArray *deletedRecordIDs, NSError *error) {
+		if (error) {
+			DNSLog(@"%@", error);
+		}
+		if ([savedRecords count]) {
+			DNSLog(@"savedRecords = %@", savedRecords);
+		}
+		if ([deletedRecordIDs count]) {
+			DNSLog(@"deletedRecordIDs = %@", deletedRecordIDs);
+		}
+	};
+	operation.perRecordCompletionBlock = ^(CKRecord *record, NSError *error) {
+		DNSLog(@"%@", error);
+	};
+	operation.perRecordProgressBlock = ^(CKRecord *record, double progress) {
+	};
+	
+	[_queue addOperation:operation];
 }
 
 @end
