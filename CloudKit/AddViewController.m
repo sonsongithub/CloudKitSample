@@ -9,7 +9,7 @@
 #import "AddViewController.h"
 
 #import <CloudKit/CloudKit.h>
-
+#import "CKModifyRecordsOperation+test.h"
 #import "helper.h"
 
 @interface AddViewController () {
@@ -40,28 +40,8 @@
 	[newRecord setObject:_textField.text forKey:@"text"];
 	[newRecord setObject:[NSNumber numberWithDouble:refTime] forKey:@"time"];
 	
-	CKModifyRecordsOperation *operation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[newRecord] recordIDsToDelete:@[]];
-	
+	CKModifyRecordsOperation *operation = [CKModifyRecordsOperation testModifyRecordsOperationWithRecordsToSave:@[newRecord] recordIDsToDelete:@[]];
 	operation.database = database;
-	operation.completionBlock = ^(void) {
-	};
-	operation.modifyRecordsCompletionBlock = ^(NSArray *savedRecords, NSArray *deletedRecordIDs, NSError *error) {
-		if (error) {
-			DNSLog(@"%@", error);
-		}
-		if ([savedRecords count]) {
-			DNSLog(@"savedRecords = %@", savedRecords);
-		}
-		if ([deletedRecordIDs count]) {
-			DNSLog(@"deletedRecordIDs = %@", deletedRecordIDs);
-		}
-	};
-	operation.perRecordCompletionBlock = ^(CKRecord *record, NSError *error) {
-		DNSLog(@"%@", error);
-	};
-	operation.perRecordProgressBlock = ^(CKRecord *record, double progress) {
-	};
-	
 	[_queue addOperation:operation];
 }
 

@@ -9,9 +9,8 @@
 #import "TableViewController.h"
 
 #import <CloudKit/CloudKit.h>
-
+#import "CKModifyRecordsOperation+test.h"
 #import "EditViewController.h"
-
 #import "helper.h"
 
 @interface TableViewController () {
@@ -277,28 +276,8 @@
 		}
 		CKRecord *recordToBeDeleted = [target objectAtIndex:indexPath.row];
 		
-		CKModifyRecordsOperation *operation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[] recordIDsToDelete:@[recordToBeDeleted.recordID]];
-		
+		CKModifyRecordsOperation *operation = [CKModifyRecordsOperation testModifyRecordsOperationWithRecordsToSave:@[] recordIDsToDelete:@[recordToBeDeleted.recordID]];
 		operation.database = database;
-		operation.completionBlock = ^(void) {
-		};
-		operation.modifyRecordsCompletionBlock = ^(NSArray *savedRecords, NSArray *deletedRecordIDs, NSError *error) {
-			if (error) {
-				DNSLog(@"%@", error);
-			}
-			if ([savedRecords count]) {
-				DNSLog(@"savedRecords = %@", savedRecords);
-			}
-			if ([deletedRecordIDs count]) {
-				DNSLog(@"deletedRecordIDs = %@", deletedRecordIDs);
-			}
-		};
-		operation.perRecordCompletionBlock = ^(CKRecord *record, NSError *error) {
-			DNSLog(@"%@", error);
-		};
-		operation.perRecordProgressBlock = ^(CKRecord *record, double progress) {
-		};
-		
 		[_queue addOperation:operation];
 		
 		[target removeObjectAtIndex:indexPath.row];

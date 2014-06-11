@@ -8,6 +8,7 @@
 
 #import "EditViewController.h"
 #import "helper.h"
+#import "CKModifyRecordsOperation+test.h"
 
 @interface EditViewController () {
 	IBOutlet UITextField	*_textField;
@@ -51,36 +52,8 @@
 	//
 	// You have to set appropriate role at iCloud Dashboard in order to edit a property of your record.
 	//
-
-	CKModifyRecordsOperation *operation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:@[record] recordIDsToDelete:@[]];
-	
-	//
-	// Save policy
-	//
-	operation.savePolicy = CKRecordSaveIfServerRecordUnchanged;
-//	operation.savePolicy = CKRecordSaveAllKeys;
-//	operation.savePolicy = CKRecordSaveChangedKeys;
-	
+	CKModifyRecordsOperation *operation = [CKModifyRecordsOperation testModifyRecordsOperationWithRecordsToSave:@[record] recordIDsToDelete:@[]];
 	operation.database = database;
-	operation.completionBlock = ^(void) {
-	};
-	operation.modifyRecordsCompletionBlock = ^(NSArray *savedRecords, NSArray *deletedRecordIDs, NSError *error) {
-		if (error) {
-			DNSLog(@"%@", error);
-		}
-		if ([savedRecords count]) {
-			DNSLog(@"savedRecords = %@", savedRecords);
-		}
-		if ([deletedRecordIDs count]) {
-			DNSLog(@"deletedRecordIDs = %@", deletedRecordIDs);
-		}
-	};
-	operation.perRecordCompletionBlock = ^(CKRecord *record, NSError *error) {
-		DNSLog(@"%@", error);
-	};
-	operation.perRecordProgressBlock = ^(CKRecord *record, double progress) {
-	};
-	
 	[_queue addOperation:operation];
 }
 
