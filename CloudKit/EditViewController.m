@@ -13,6 +13,7 @@
 @interface EditViewController () {
 	IBOutlet UITextField	*_textField;
 	NSOperationQueue		*_queue;
+	IBOutlet UIImageView	*_imageView;
 }
 @end
 
@@ -26,6 +27,12 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	_textField.text = _record[@"text"];
+	
+	CKAsset *asset = _record[@"image"];
+	NSLog(@"%@", asset.fileURL);
+	UIImage *image = [UIImage imageWithContentsOfFile:[asset.fileURL path]];
+	_imageView.image = image;
+	_imageView.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 - (IBAction)save:(id)sender {
